@@ -1,0 +1,95 @@
+╔══════════════════════════════════════════════════════════════════╗
+║   VISTAGE · APP WEB - Instrucciones de publicación             ║
+╚══════════════════════════════════════════════════════════════════╝
+
+Esta guía te lleva paso a paso desde cero hasta tener la app
+funcionando en una URL privada accesible desde cualquier lugar.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PASO 1 — CREAR CUENTA EN GITHUB (guarda tu código)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Andá a: https://github.com/signup
+2. Elegí un usuario, email y contraseña
+3. Verificá tu email
+4. Cuando estés dentro, hacé click en "New repository" (botón verde)
+5. Nombre del repositorio: vistage-reporte
+6. Marcá "Private" (privado)
+7. Tildá "Add a README file"
+8. Click en "Create repository"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PASO 2 — SUBIR LOS ARCHIVOS A GITHUB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Dentro de tu repositorio, click en "Add file" → "Upload files"
+2. Arrastrá estos 3 archivos:
+   - app.py
+   - requirements.txt
+   - obtener_refresh_token.py
+3. Click en "Commit changes"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PASO 3 — OBTENER EL REFRESH TOKEN (solo 1 vez)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Abrí "obtener_refresh_token.py" con el Bloc de Notas
+2. Completá CLIENT_ID y CLIENT_SECRET con tus credenciales de Zoho
+3. Guardá y hacé doble click en el archivo (o correlo con Python)
+4. Se abre el navegador → autorizás → copiás el REFRESH TOKEN que aparece
+5. Guardá ese token en un lugar seguro, lo vas a necesitar en el Paso 5
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PASO 4 — CREAR CUENTA EN STREAMLIT CLOUD (publica la app)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Andá a: https://share.streamlit.io
+2. Click en "Sign up" → elegí "Continue with GitHub"
+3. Autorizá la conexión con tu cuenta de GitHub
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PASO 5 — PUBLICAR LA APP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. En Streamlit Cloud, click en "New app"
+2. Elegí tu repositorio: vistage-reporte
+3. Main file path: app.py
+4. Click en "Advanced settings" → "Secrets"
+5. Pegá esto (reemplazando con tus valores reales):
+
+   ZOHO_CLIENT_ID     = "tu_client_id"
+   ZOHO_CLIENT_SECRET = "tu_client_secret"
+   ZOHO_REFRESH_TOKEN = "tu_refresh_token"
+   ZOHO_OWNER         = "ygomez_vistage"
+   ZOHO_APP_NAME      = "vistage-per"
+   REPORTE_GRUPOS     = ""
+   REPORTE_MIEMBROS   = ""
+   REPORTE_BAJAS      = ""
+   REPORTE_CHAIRS     = ""
+
+   (Si no sabés los nombres de los reportes, dejá en blanco —
+    la app los va a descubrir y mostrar en pantalla)
+
+6. Click en "Deploy!"
+7. En 2-3 minutos tenés tu URL lista
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PASO 6 — COMPARTIR CON TU EQUIPO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+La URL tiene este formato:
+   https://tu-usuario-vistage-reporte-app.streamlit.app
+
+Para hacerla privada (solo tu equipo):
+1. En Streamlit Cloud, andá a Settings de tu app
+2. Click en "Sharing"
+3. Elegí "Specific people" y agregá los emails de tu equipo
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ACTUALIZACIÓN AUTOMÁTICA MENSUAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+No hace falta hacer nada — la app se conecta a Zoho Creator en
+tiempo real cada vez que alguien la abre. Los datos son siempre
+los más recientes.
+
+Si querés forzar una actualización, hay un botón "🔄 Actualizar
+datos" en el panel lateral de la app.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+¿ALGO NO FUNCIONA?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Capturá el error que aparece en pantalla y consultá con Claude.
