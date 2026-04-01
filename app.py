@@ -66,7 +66,6 @@ REPORTES = {
 }
 
 # ── Zoho API ──────────────────────────────────────────────────────
-@st.cache_data(ttl=3600)
 def get_access_token():
     r = requests.post("https://accounts.zoho.com/oauth/v2/token", data={
         "refresh_token": REFRESH_TOKEN,
@@ -75,7 +74,9 @@ def get_access_token():
         "grant_type": "refresh_token"
     })
     data = r.json()
-    return data.get("access_token")
+    token = data.get("access_token")
+    api_domain = data.get("api_domain", "https://www.zohoapis.com")
+    return token, api_domain
 
 @st.cache_data(ttl=1800, show_spinner=False)
 def fetch_report(report_name, token):
@@ -257,7 +258,7 @@ def main():
 
     # Cargar datos
     with st.spinner("Conectando a Zoho Creator..."):
-        token = get_access_token()
+        token, api_domain = get_access_token()
         if not token:
             st.error("❌ No se pudo obtener acceso a Zoho. Verificá las credenciales.")
             st.stop()
@@ -266,7 +267,7 @@ def main():
         reportes_ok = [v for v in REPORTES.values() if v]
         if not reportes_ok:
             st.warning("⚙️ No hay reportes configurados. Descubriendo reportes disponibles...")
-            disponibles = discover_reports(token)
+            disponibles = discover_reports(token, api_domain)
             if disponibles:
                 st.info("📋 Reportes encontrados en tu app:\n\n" + "\n".join(f"- `{r}`" for r in disponibles))
                 st.markdown("Copiá los nombres en los **Secrets** de Streamlit Cloud como `REPORTE_GRUPOS`, `REPORTE_MIEMBROS`, etc.")
@@ -277,7 +278,7 @@ def main():
         registros = []
         for nombre, reporte in REPORTES.items():
             if reporte:
-                recs = fetch_report(reporte, token)
+                recs = fetch_report(reporte, token, api_domain)
                 registros.extend(recs)
 
     if not registros:
