@@ -256,8 +256,7 @@ def main():
 
     # Cargar datos
     with st.spinner("Conectando a Zoho Creator..."):
-        result = get_access_token()
-token, api_domain = result if isinstance(result, tuple) else (result, "https://www.zohoapis.com")
+        token, api_domain = get_access_token()
         if not token:
             st.error("❌ No se pudo obtener acceso a Zoho. Verificá las credenciales.")
             st.stop()
