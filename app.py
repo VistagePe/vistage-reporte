@@ -82,7 +82,7 @@ def fetch_report(report_name, token):
     if not report_name:
         return []
     headers = {"Authorization": f"Zoho-oauthtoken {token}"}
-    url = f"https://creator.zoho.com/api/v2/{ZOHO_OWNER}/{APP_NAME}/report/{report_name}"
+    url = f"https://creator.zohoapis.com/api/v2/{ZOHO_OWNER}/{APP_NAME}/report/{report_name}"
     all_records, offset = [], 0
     while True:
         r = requests.get(url, headers=headers, params={"max_records": 200, "start_index": offset})
@@ -97,7 +97,7 @@ def fetch_report(report_name, token):
 @st.cache_data(ttl=1800, show_spinner=False)
 def discover_reports(token):
     headers = {"Authorization": f"Zoho-oauthtoken {token}"}
-    url = f"https://creator.zoho.com/api/v2/{ZOHO_OWNER}/{APP_NAME}/report"
+    url = f"https://creator.zohoapis.com/api/v2/{ZOHO_OWNER}/{APP_NAME}/report"
     r = requests.get(url, headers=headers)
     data = r.json()
     return [rep.get("link_name", "") for rep in data.get("reports", [])]
