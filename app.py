@@ -67,16 +67,22 @@ REPORTES = {
 
 # ── Zoho API ──────────────────────────────────────────────────────
 def get_access_token():
-    r = requests.post("https://accounts.zoho.com/oauth/v2/token", data={
-        "refresh_token": REFRESH_TOKEN,
-        "client_id": CLIENT_ID,
-        "client_secret": CLIENT_SECRET,
-        "grant_type": "refresh_token"
-    })
-    data = r.json()
-    token = data.get("access_token")
-    api_domain = data.get("api_domain", "https://www.zohoapis.com")
-    return token, api_domain
+    for base_url in ["https://accounts.zoho.com", "https://accounts.zoho.com.pe", "https://accounts.zohoapis.com"]:
+        try:
+            r = requests.post(f"{base_url}/oauth/v2/token", data={
+                "refresh_token": REFRESH_TOKEN,
+                "client_id": CLIENT_ID,
+                "client_secret": CLIENT_SECRET,
+                "grant_type": "refresh_token"
+            }, timeout=10)
+            data = r.json()
+            token = data.get("access_token")
+            if token:
+                api_domain = data.get("api_domain", "https://www.zohoapis.com")
+                return token, api_domain
+        except Exception:
+            continue
+    return None, "https://www.zohoapis.com"
 
 def fetch_report(report_name, token):
     if not report_name:
