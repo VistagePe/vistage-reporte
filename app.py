@@ -78,7 +78,6 @@ def get_access_token():
     api_domain = data.get("api_domain", "https://www.zohoapis.com")
     return token, api_domain
 
-@st.cache_data(ttl=1800, show_spinner=False)
 def fetch_report(report_name, token):
     if not report_name:
         return []
@@ -95,7 +94,6 @@ def fetch_report(report_name, token):
         offset += 200
     return all_records
 
-@st.cache_data(ttl=1800, show_spinner=False)
 def discover_reports(token):
     headers = {"Authorization": f"Zoho-oauthtoken {token}"}
     url = f"https://creator.zohoapis.com/api/v2/{ZOHO_OWNER}/{APP_NAME}/report"
